@@ -2,9 +2,7 @@ package com.pluralsight.tddjunit5.airport;
 
 import org.junit.jupiter.api.*;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AirportTest {
 
