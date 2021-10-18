@@ -2,12 +2,10 @@ package com.pluralsight.tddjunit5.mileage;
 
 import com.pluralsight.tddjunit5.airport.Flight;
 import com.pluralsight.tddjunit5.airport.Passenger;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,14 +25,24 @@ public class MileageTest {
         mileage = new Mileage();
     }
 
+    // V1
     @ParameterizedTest
+    @Disabled
     @ValueSource(strings = { "1; e; Mike; false; 349", "2; b; John; true; 278", "3; e; Mike; false; 319", "4; p; John; true; 817",
     "5; e; Mike; false; 623", "6; e; John; true; 978"})
     void checkGivenPoints(@ConvertWith(FlightArgumentConverter.class) Flight flight) {
         for (Passenger passenger: flight.getPassengerSet()) {
             mileage.addMileage(passenger, flight.getDistance());
         }
-        assertTrue(true);
+    }
+
+    // V2
+    @ParameterizedTest
+    @CsvFileSource(resources = "/flights_info.csv")
+    void checkGivenPointsWithCsvInputs (@ConvertWith(FlightArgumentConverter.class) Flight flight) {
+        for (Passenger passenger: flight.getPassengerSet()) {
+            mileage.addMileage(passenger, flight.getDistance());
+        }
     }
 
     @AfterAll
